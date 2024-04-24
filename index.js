@@ -35,18 +35,41 @@
 fetch("https://fakestoreapi.com/products")
 .then(response=>response.json())
 .then(data=>{
-    for (let i = 0; i < data.length; i++) {
+  renderUI(data)
+  const az=document.getElementById('az')
+  const za=document.getElementById('za')
+  const card=document.querySelector('.card')
+  az.addEventListener('click',(e)=>{
+    e.preventDefault()
+    let salam=data.sort((a,b)=>{return a.price - b.price})
+    renderUI(salam)
+    })
+  za.addEventListener('click',(e)=>{
+    e.preventDefault()
+    let sagol=data.sort((a,b)=>{return b.price - a.price})
+    renderUI(sagol)
+  })
 
-        let cardArea=document.querySelector('.cardArea')
-        cardArea.innerHTML+=
-        `
-        <div class="card" style="width: 18rem;">
-          <div class="card-body">
-            <img style="width:200px" src="${data[i].image}">
-            <h5 class="card-title">${data[i].title}</h5>
-            <p class="card-text">${data[i].description}</p>
-          </div>
-        </div>
-        `
-    }
+ 
 })
+function renderUI(list) {
+  let cardArea=document.querySelector('.cardArea')
+  let innerHTML=""
+  for (let i = 0; i < list.length; i++) {
+
+
+    innerHTML+=
+    `
+    <div class="card" style="width: 18rem; ">
+      <div class="card-body">
+        <img style="width:200px" src="${list[i].image}">
+        <h5 class="card-title">${list[i].title}</h5>
+        <p class="card-text">${list[i].description}</p>
+        <p class="card-text">${list[i].price}$</p>
+      </div>
+    </div>
+    `
+}
+cardArea.innerHTML=innerHTML
+
+}
